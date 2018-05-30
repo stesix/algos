@@ -295,10 +295,10 @@ public class RedBlackTree {
     public static void main(String[] args) {
         RedBlackTree rbt = new RedBlackTree();
 
-        //int[] input = { 4, 2, 9, 6, 23, 12, 34, 0, 1 };
+        int[] input = { 4, 2, 9, 6, 23, 12, 34, 0, 1 };
 
-        for (int i = 0; i < 15; i++) {
-            RBNode node = rbt.createNode(50 - i);
+        for (int i = 0; i < input.length; i++) {
+            RBNode node = rbt.createNode(input[i]);
             rbt.insert(node);
         }
 
