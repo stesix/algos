@@ -4,46 +4,36 @@ import java.io.*;
 
 class RatInAMaze {
 
-    static String result = "";
+    static TreeSet<String> solution = new TreeSet<String>();
 
-    static boolean solver(int[][] maze, int[] currentPosition, String moves) {
-        int col = currentPosition[0];
-        int row = currentPosition[1];
-        String lastMove = "";
+    public static ArrayList<String> printPath(int[][] m, int n) {
+        canMove(m, n, 0, 0, "");
+        ArrayList<String> moves = new ArrayList<String>(solution);
 
-        if (moves.length() > 0) {
-            char[] tmp = moves.toCharArray();
-            lastMove = "" + tmp[tmp.length - 1];
+        return moves;
+    }
+
+    static void canMove(int m[][], int n, int i, int j, String moves) {
+        if ( i < 0 || j < 0 || i == n || j == n )
+            return;
+
+        if ( i == n - 1 && j == n - 1 ) {
+            solution.add(moves);
+            return;
         }
 
-        if (col == maze.length - 1 && row == maze.length - 1) {
-            System.out.print(moves + " ");
-            return true;
+        if( m[i][j] == 1 ) {
+            // Mark node as visited!
+            m[i][j] = 2;
+
+            canMove(m, n, i - 1, j, moves + "U");
+            canMove(m, n, i + 1, j, moves + "D");
+            canMove(m, n, i, j - 1, moves + "L");
+            canMove(m, n, i, j + 1, moves + "R");
+
+            // We finished to check this node completely, roll back.
+            m[i][j] = 1;
         }
-
-        //System.out.println("Last move was: " + lastMove);
-
-        if (col < maze.length - 1 && maze[col + 1][row] == 1 && lastMove != "U" ) {
-            if (solver(maze, new int[] {col + 1, row}, moves + "D")) {
-                return true;
-            }
-        }
-
-        if (row < maze.length - 1 && maze[col][row + 1] == 1 && lastMove != "L" ) {
-            if (solver(maze, new int[] {col, row + 1}, moves + "R")) {
-                return true;
-            }
-        }
-
-        if (col > 0 && maze[col - 1][row] == 1 && lastMove != "D" ) {
-            solver(maze, new int[] {col - 1, row}, moves + "U");
-        }
-
-        if (row > 0 && maze[col][row - 1] == 1 && lastMove != "R" ) {
-            solver(maze, new int[] {col, row - 1}, moves + "L");
-        }
-
-        return false;
     }
 
     static void print(int[][] maze) {
@@ -70,8 +60,11 @@ class RatInAMaze {
             }
 
             //print(maze);
+            ArrayList<String> s = printPath(maze, N);
+            String[] solutions = s.toArray(new String[0]);
 
-            solver(maze, new int[] {0, 0}, "");
+            for (String sol: solutions)
+                System.out.print(sol + " ");
             System.out.println("");
         }
     }
