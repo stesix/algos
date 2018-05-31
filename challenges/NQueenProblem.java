@@ -42,7 +42,7 @@ class NQueenProblem {
 
         for (int i = 0; i < testCaseAmount; i++) {
             int N = in.nextInt();
-            if (N < 4)
+            if (N != 1 && N < 4)
                 System.out.print("-1");
             else
                 solve(new int[N], N, 0);
