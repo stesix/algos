@@ -4,9 +4,10 @@ import java.io.*;
 
 class RatInAMaze {
 
-    static TreeSet<String> solution = new TreeSet<String>();
+    static TreeSet<String> solution;
 
     public static ArrayList<String> printPath(int[][] m, int n) {
+        solution = new TreeSet<String>();
         canMove(m, n, 0, 0, "");
         ArrayList<String> moves = new ArrayList<String>(solution);
 
